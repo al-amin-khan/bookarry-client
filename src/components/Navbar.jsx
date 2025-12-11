@@ -143,11 +143,11 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         {
                             isLoginPage ? (
-                                <Link to="/register" className="btn btn-primary">
+                                <Link to="auth/register" className="btn btn-primary">
                                     Register
                                 </Link>
                             ) : (
-                                <Link to="/login" className="btn btn-primary">
+                                <Link to="auth/login" className="btn btn-primary">
                                     Login
                                 </Link>
                             )
