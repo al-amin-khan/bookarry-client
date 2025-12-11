@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+    name: "bookarry-light";
+    default: true;
+
+    /* BRAND COLORS (from logo) */
+    --color-primary: #1b757b; /* Deep teal (main brand / CTAs) */
+    --color-primary-content: #f9fafb; /* Almost white text on primary */
+
+    --color-secondary: #e88840; /* Logo orange – warm highlight */
+    --color-secondary-content: #1f2933; /* Dark slate text on secondary */
+
+    --color-accent: #caeb66; /* Your lime – used as accent pops */
+    --color-accent-content: #0b1120; /* Very dark text on accent */
+
+    /* NEUTRALS & SURFACES */
+    --color-neutral: #0b1720; /* Charcoal teal for nav, footer, chips */
+    --color-neutral-content: #e5e7eb; /* Light text on neutral */
+
+    --color-base-100: #f7fafc; /* Page background */
+    --color-base-200: #e5edf4; /* Cards / elevated surfaces */
+    --color-base-300: #d1dce8; /* Subtle borders, dividers */
+    --color-base-content: #1f2933; /* Default body text */
+
+    /* STATUS COLORS (tuned to match brand vibe) */
+    --color-info: #0ea5e9;
+    --color-info-content: #f9fafb;
+
+    --color-success: #22c55e;
+    --color-success-content: #022c12;
+
+    --color-warning: #fbbf24;
+    --color-warning-content: #1f2933;
+
+    --color-error: #ef4444;
+    --color-error-content: #f9fafb;
+
+    /* RADIUS / DEPTH – to keep everything soft & modern */
+    --radius-selector: 1rem; /* badges, toggles, small pills */
+    --radius-field: 0.25rem; /* inputs, tabs */
+    --radius-box: .5rem; /* cards, modals */
+
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    --border: 1px;
+    --depth: 0; /* set 1 if you want extra shadows */
+    --noise: 0; /* set 1 for subtle background noise */
+}
