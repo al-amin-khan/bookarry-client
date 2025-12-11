@@ -1,10 +1,10 @@
-import { FaArrowRight } from 'react-icons/fa';
 import { Link, NavLink, useLocation } from 'react-router';
 import BrandLogo from './BrandLogo';
 import useAuth from '../hooks/useAuth';
-import { LogOut, UserIcon } from 'lucide-react';
+import { LogOut, Moon, Sun, UserIcon } from 'lucide-react';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Loading from './Loading';
+import { useTheme } from './../hooks/useTheme';
 
 const Navbar = () => {
     const navItems = [
@@ -14,6 +14,8 @@ const Navbar = () => {
         { id: 4, name: 'Pricing', path: '/pricing', protected: false },
         { id: 5, name: 'Be a Rider', path: '/be-a-rider', protected: true },
     ]
+
+    const { theme, toggleTheme } = useTheme();
 
     const { user, loading, logOut } = useAuth();
     const isLoggedIn = user?.isLoggedIn;
@@ -84,8 +86,8 @@ const Navbar = () => {
                 <p className={`text-sm text-secondary hidden lg:block mr-1 border-primary rounded-md py-2 px-2 ${user ? 'border' : 'hidden'}`}>
                     {`${user ? user.displayName : ""}`}
                 </p>
-                
-            
+
+
                 {isLoggedIn ? (
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -141,17 +143,25 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         {
                             isLoginPage ? (
-                                <Link to="/login" className="btn btn-primary">
-                                    Login
-                                </Link>
-                            ) : (
                                 <Link to="/register" className="btn btn-primary">
                                     Register
+                                </Link>
+                            ) : (
+                                <Link to="/login" className="btn btn-primary">
+                                    Login
                                 </Link>
                             )
                         }
                     </div>
                 )}
+
+                <button
+                    className="btn btn-ghost btn-square ml-2"
+                    onClick={toggleTheme}
+                    aria-label="Toggle theme"
+                >
+                    {theme === "bookarry-light" ? <Moon size={18} color='teal' /> : <Sun size={18} color='yellow' />}
+                </button>
             </div>
         </div>
     );

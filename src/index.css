@@ -1,9 +1,11 @@
 @import "tailwindcss";
+
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
     name: "bookarry-light";
     default: true;
+    color-scheme: light; /* color of browser-provided UI */
 
     /* BRAND COLORS (from logo) */
     --color-primary: #1b757b; /* Deep teal (main brand / CTAs) */
@@ -40,7 +42,7 @@
     /* RADIUS / DEPTH – to keep everything soft & modern */
     --radius-selector: 1rem; /* badges, toggles, small pills */
     --radius-field: 0.25rem; /* inputs, tabs */
-    --radius-box: .5rem; /* cards, modals */
+    --radius-box: 0.5rem; /* cards, modals */
 
     --size-selector: 0.25rem;
     --size-field: 0.25rem;
@@ -48,4 +50,53 @@
     --border: 1px;
     --depth: 0; /* set 1 if you want extra shadows */
     --noise: 0; /* set 1 for subtle background noise */
+}
+
+@plugin "daisyui/theme" {
+    name: "bookarry-dark";
+    color-scheme: dark; /* color of browser-provided UI */
+
+    /* BRAND COLORS tuned for dark surfaces */
+    --color-primary: #5fd2d6; /* Brighter teal for contrast on dark */
+    --color-primary-content: #041517;
+
+    --color-secondary: #f2a45e;
+    --color-secondary-content: #0f0a05;
+
+    --color-accent: #d7f87a;
+    --color-accent-content: #0b1205;
+
+    /* NEUTRALS & SURFACES */
+    --color-neutral: #0c1b24;
+    --color-neutral-content: #d9e2ea;
+
+    --color-base-100: #0f1720; /* Page background */
+    --color-base-200: #111d2a; /* Cards / elevated surfaces */
+    --color-base-300: #162230; /* Subtle borders, dividers */
+    --color-base-content: #e5e7eb; /* Default body text */
+
+    /* STATUS COLORS */
+    --color-info: #38bdf8;
+    --color-info-content: #021018;
+
+    --color-success: #4ade80;
+    --color-success-content: #04210f;
+
+    --color-warning: #fbbf24;
+    --color-warning-content: #1c1303;
+
+    --color-error: #f87171;
+    --color-error-content: #1b0606;
+
+    /* keep rounding consistent across themes */
+    --radius-selector: 1rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.5rem;
+
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    --border: 1px;
+    --depth: 0;
+    --noise: 0;
 }
