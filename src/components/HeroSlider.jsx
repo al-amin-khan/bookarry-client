@@ -57,7 +57,7 @@ const HeroSlider = () => {
     }, []);
 
     return (
-        <section className="relative w-10/12 mx-auto h-[350px] md:h-[480px] mt-6 rounded-2xl overflow-hidden">
+        <section className="relative w-11/12 mx-auto h-[350px] md:h-[480px] mt-6 rounded-2xl overflow-hidden">
             <Swiper
                 onSwiper={(swiper) => {
                     swiperRef.current = swiper;

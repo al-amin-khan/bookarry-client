@@ -22,7 +22,7 @@ const LatestBooks = () => {
 
 
     return (
-        <section className="py-20 px-4 bg-base-200">
+        <section className="py-20 px-4 bg-base-200 w-11/12 mx-auto">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-4xl font-bold mb-4">Latest Books</h2>

@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 const RootLayout = () => {
     return (
         <div className='bg-base-200'>
-            <nav className='w-10/12 mx-auto pt-3'>
+            <nav className='w-11/12 mx-auto pt-3'>
                 <Navbar />
             </nav>
 
@@ -13,7 +13,7 @@ const RootLayout = () => {
                 <Outlet />
             </main>
 
-            <footer>
+            <footer className='pb-2'>
                 <Footer />
             </footer>
         </div>

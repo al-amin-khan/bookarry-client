@@ -21,7 +21,7 @@ const Card = ({ book }) => {
                         <div className="flex items-center">
                             {
                                 Array.from({ length: book.rating }).map((_, index) => (
-                                    <Star key={index} color='teal' fill='teal' className="text-secondary w-4 h-4" />
+                                    <Star key={index} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                                 ))
                             }
                         </div>

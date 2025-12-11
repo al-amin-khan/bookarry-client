@@ -15,7 +15,7 @@ const Footer = () => {
     const year = new Date().getFullYear();
 
     return (
-        <footer className="bg-neutral text-neutral-content mt-16">
+        <footer className="bg-neutral text-neutral-content mt-16 w-11/12 mx-auto rounded-2xl">
             {/* Top section */}
             <div className="max-w-6xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-3">
                 {/* Brand + short text */}
