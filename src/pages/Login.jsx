@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { IoLogoGithub } from 'react-icons/io';
-import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
@@ -11,7 +9,7 @@ import GoogleSignInButton from '../components/GoogleSignInButton';
 
 
 const Login = () => {
-    const { user, googleLoginWithPopUp, gitHubLoginWithPopUp, signInUser } = useAuth();
+    const { user, signInUser } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -30,48 +28,6 @@ const Login = () => {
         }
     }, [user, redirectPath, navigate]);
 
-
-    const handleSocialLogin = (loginWith) => {
-        setIsSubmitting(true);
-        if (loginWith === 'google') {
-            googleLoginWithPopUp()
-                .then(res => {
-                    toast.success(`Welcome, ${res.user.displayName}, you have successfully logged in.`, {
-                        duration: 6000,
-                        position: 'bottom-left',
-                    });
-                    navigate(redirectPath, { replace: true });
-                })
-                .catch(error => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    toast.error(`Error: ${errorCode}-${errorMessage}`, {
-                        duration: 4000,
-                        position: 'bottom-left',
-                    });
-                }).finally(() => {
-                    setIsSubmitting(false);
-                });
-        }
-        if (loginWith === 'github') {
-            gitHubLoginWithPopUp()
-                .then(res => {
-                    toast.success(`Welcome, ${res.user.displayName}, you have successfully logged in.`, {
-                        duration: 6000,
-                        position: 'top-right',
-                    });
-                    navigate(redirectPath, { replace: true });
-                })
-                .catch(error => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    toast.error(`Error: ${errorCode}-${errorMessage}`, {
-                        duration: 4000,
-                        position: 'bottom-left',
-                    });
-                });
-        }
-    };
 
     const handleLoginWithEmailAndPassword = (e) => {
         e.preventDefault();
@@ -149,7 +105,7 @@ const Login = () => {
                                 </fieldset>
                             </form>
                             <div className="divider">OR</div>
-                            <GoogleSignInButton />
+                            <GoogleSignInButton message='Login with Google' />
                         </div>
                     </div>
                 </div>

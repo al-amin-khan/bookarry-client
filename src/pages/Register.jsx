@@ -4,9 +4,11 @@ import GoogleSignInButton from '../components/GoogleSignInButton';
 import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
     const { registerUser, updateUserProfile, setUser } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
     const {
         register,
         handleSubmit,
@@ -73,11 +75,28 @@ const Register = () => {
 
                             <label className="label text-neutral/90">Email</label>
                             <input type="email" className="input w-full" placeholder="Email" {...register("email", { required: true })} />
-                            {errors.email && <span className="text-red-500">This field is required</span>}
+                            {errors.email?.type === 'required' && <span className="text-red-500">This field is required</span>}
 
                             <label className="label text-neutral/90">Password</label>
-                            <input type="password" className="input w-full" placeholder="Password" {...register("password", { required: true })} />
-                            {errors.password && <span className="text-red-500">This field is required</span>}
+                            <label className="input w-full">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name='password'
+                                    className="grow w-full"
+                                    placeholder="Password"
+                                    {...register("password", { required: true, min: 6, max: 99, pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/ })}
+                                />
+                                {
+                                    showPassword ?
+                                        <Eye className="h-5 w-5" onClick={() => setShowPassword(!showPassword)} />
+                                        :
+                                        <EyeOff className="h-5 w-5" onClick={() => setShowPassword(!showPassword)} />
+                                }
+                            </label>
+                            {errors.password?.type === 'required' && <span className="text-red-500">This field is required</span>}
+                            {errors.password?.type === 'min' && <span className="text-red-500">Password must be at least 6 characters</span>}
+                            {errors.password?.type === 'max' && <span className="text-red-500">Password must be less than 100 characters</span>}
+                            {errors.password?.type === 'pattern' && <span className="text-red-500">Password must contain at least one uppercase letter, one lowercase letter, and one number</span>}
 
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-primary text-neutral mt-4">
@@ -94,7 +113,7 @@ const Register = () => {
                         </fieldset>
                     </form>
                     <div className="divider">OR</div>
-                    <GoogleSignInButton />
+                    <GoogleSignInButton message="Register with Google" />
                 </div>
             </div>
         </div>
