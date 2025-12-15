@@ -88,6 +88,7 @@ const Navbar = () => {
                                         src={user.photoURL}
                                         alt={user.name}
                                         className="object-cover"
+                                        referrerPolicy='no-referrer'
                                     />
                                 ) : (
                                     <div className="flex h-full w-full items-center justify-center bg-base-200">

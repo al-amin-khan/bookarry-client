@@ -1,5 +1,5 @@
 import { Star } from 'lucide-react';
-import React from 'react';
+import { Link } from 'react-router';
 
 const Card = ({ book }) => {
     return (
@@ -15,7 +15,9 @@ const Card = ({ book }) => {
                     />
                 </figure>
                 <div className="card-body">
-                    <h3 className="card-title text-lg">{book.title}</h3>
+                    <Link className="hover:text-primary hover:cursor-pointer" to={`/books/${book._id}`}>
+                        <h3 className="card-title text-lg">{book.title}</h3>
+                    </Link>
                     <p className="text-sm opacity-70">by {book.author}</p>
                     <div className="flex items-center gap-0 my-0">
                         <div className="flex items-center">
