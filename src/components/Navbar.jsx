@@ -1,8 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router';
 import BrandLogo from './BrandLogo';
 import useAuth from '../hooks/useAuth';
-import { LogOut, Moon, Sun, UserIcon } from 'lucide-react';
-import DashboardLayout from '../layouts/DashboardLayout';
+import { LogOut, LucideLayoutDashboard, Moon, Sun, UserIcon } from 'lucide-react';
 import Loading from './Loading';
 import { useTheme } from './../hooks/useTheme';
 
@@ -16,7 +15,6 @@ const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
 
     const { user, loading, logOut } = useAuth();
-    const isLoggedIn = user?.isLoggedIn;
 
     const location = useLocation();
     const isLoginPage = location.pathname === '/auth/login';
@@ -52,7 +50,7 @@ const Navbar = () => {
                                     <NavLink
                                         to={item.path}
                                         href={item.path}
-                                        className={({ isActive }) => isActive ? 'active underline underline-offset-5 decoration-[#CAEB66] decoration-2' : ''}
+                                        className={({ isActive }) => isActive ? 'active underline underline-offset-5 decoration-primary decoration-2' : ''}
                                     >
                                         {item.name}
                                     </NavLink>
@@ -72,7 +70,7 @@ const Navbar = () => {
                                 <NavLink
                                     to={item.path}
                                     href={item.path}
-                                    className={({ isActive }) => isActive ? 'active underline underline-offset-5 decoration-[#CAEB66] decoration-2' : ''}
+                                    className={({ isActive }) => isActive ? 'active underline underline-offset-5 decoration-primary decoration-3' : ''}
                                 >
                                     {item.name}
                                 </NavLink>
@@ -81,12 +79,7 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <p className={`text-sm text-secondary hidden lg:block mr-1 border-primary rounded-md py-2 px-2 ${user ? 'border' : 'hidden'}`}>
-                    {`${user ? user.displayName : ""}`}
-                </p>
-
-
-                {isLoggedIn ? (
+                {user && !isLoginPage ? (
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-9 rounded-full ring-2 ring-primary/40">
@@ -121,8 +114,8 @@ const Navbar = () => {
                             <div className="divider my-1" />
                             <li>
                                 <Link to="/dashboard" className="flex items-center gap-2">
-                                    <DashboardLayout size={16} />
-                                    <span>Dashboard</span>
+                                    <LucideLayoutDashboard size={16} />
+                                    <span className='font-semibold text-gray-700'>Dashboard</span>
                                 </Link>
                             </li>
                             <li>
@@ -141,11 +134,11 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         {
                             isLoginPage ? (
-                                <Link to="auth/register" className="btn btn-primary">
+                                <Link to="/auth/register" className="btn btn-primary">
                                     Register
                                 </Link>
                             ) : (
-                                <Link to="auth/login" className="btn btn-primary">
+                                <Link to="/auth/login" className="btn btn-primary">
                                     Login
                                 </Link>
                             )

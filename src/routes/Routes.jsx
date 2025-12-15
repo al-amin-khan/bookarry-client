@@ -4,12 +4,16 @@ import Home from "../pages/Home";
 import Books from "../pages/Books";
 import PageNotFound from "../pages/PageNotFound";
 import BookDetail from "../pages/BookDetail";
+import AuthLayout from './../layouts/AuthLayout';
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         HydrateFallback: true,
+        errorElement: <PageNotFound />,
         Component: RootLayout,
         children: [
             {
@@ -23,6 +27,25 @@ const router = createBrowserRouter([
             {
                 path: '/books/:id',
                 Component: BookDetail
+            },
+            {
+                path: '*',
+                Component: PageNotFound
+            }
+        ]
+    },
+    {
+        path: 'auth/',
+        Component: AuthLayout,
+        errorElement: <PageNotFound />,
+        children: [
+            {
+                path: 'login',
+                Component: Login
+            },
+            {
+                path: 'register',
+                Component: Register
             },
             {
                 path: '*',

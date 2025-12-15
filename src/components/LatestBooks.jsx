@@ -35,7 +35,7 @@ const LatestBooks = () => {
                         <Loading message="Loading latest books" />
                         :
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {latestBooks.map((book) => (
+                            {latestBooks?.map((book) => (
                                 <Card key={book._id} book={book} />
                             ))}
                         </div>
