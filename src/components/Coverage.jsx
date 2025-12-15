@@ -5,7 +5,6 @@ import coverageAreas from '../assets/warehouses.json';
 
 
 const Coverage = () => {
-    // const coverageAreas = useLoaderData();
     const position = [23.8103, 90.4125];
     const mapRef = useRef(null);
 
