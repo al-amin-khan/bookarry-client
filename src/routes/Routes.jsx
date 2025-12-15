@@ -3,6 +3,7 @@ import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home";
 import Books from "../pages/Books";
 import PageNotFound from "../pages/PageNotFound";
+import BookDetail from "../pages/BookDetail";
 
 
 const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
             {
                 path: '/books',
                 Component: Books
+            },
+            {
+                path: '/books/:id',
+                Component: BookDetail
             },
             {
                 path: '*',

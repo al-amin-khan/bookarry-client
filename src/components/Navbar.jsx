@@ -8,11 +8,9 @@ import { useTheme } from './../hooks/useTheme';
 
 const Navbar = () => {
     const navItems = [
-        { id: 1, name: 'Services', path: '/services', protected: false },
-        { id: 2, name: 'Coverage', path: '/coverage', protected: false },
-        { id: 3, name: 'About Us', path: '/about', protected: false },
-        { id: 4, name: 'Pricing', path: '/pricing', protected: false },
-        { id: 5, name: 'Be a Rider', path: '/be-a-rider', protected: true },
+        { id: 1, name: 'Home', path: '/', protected: false },
+        { id: 2, name: 'Books', path: '/books', protected: false },
+        { id: 3, name: 'Dashboard', path: '/dashboard', protected: false },
     ]
 
     const { theme, toggleTheme } = useTheme();
