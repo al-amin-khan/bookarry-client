@@ -19,15 +19,11 @@ const BookDetail = () => {
         }
     })
 
-    console.log(book);
-
     const { title, author, published_year, genre, price, rating, image, long_description, page_count, isbn_13, created_at, updated_at } = book || {};
 
     const roundedRating = Math.round(rating || 0);
     const createdDate = created_at ? new Date(created_at) : null;
     const updatedDate = updated_at ? new Date(updated_at) : null;
-
-    console.log({created_at, updated_at})
 
     if (isError) {
         return <div className='text-error text-center text-lg'>Error: {error.message}</div>;
@@ -38,17 +34,10 @@ const BookDetail = () => {
     }
 
     return (
-        // <div>
-        //     Book Details: {id}
-        //     {
-        //         book.title    
-        //     }
-        // </div>
         <section className="max-w-5xl mx-auto px-4 py-10">
             <div className="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] items-start">
-                {/* Cover image */}
                 <div className="relative w-full">
-                    <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-xl bg-base-200">
+                    <div className="aspect-3/4 overflow-hidden rounded-2xl shadow-xl bg-base-200">
                         <img
                             src={image}
                             alt={title}
@@ -56,7 +45,6 @@ const BookDetail = () => {
                         />
                     </div>
 
-                    {/* Small tag on image corner */}
                     <div className="absolute left-3 top-3">
                         <span className="badge badge-primary gap-1 text-[11px]">
                             <BookOpen size={14} />
@@ -65,9 +53,7 @@ const BookDetail = () => {
                     </div>
                 </div>
 
-                {/* Details */}
                 <div className="space-y-6">
-                    {/* Title & author */}
                     <div>
                         <h1 className="text-2xl md:text-3xl font-bold leading-tight">
                             {title}
@@ -80,10 +66,8 @@ const BookDetail = () => {
                         </p>
                     </div>
 
-                    {/* Rating + price */}
-                    <div className="flex flex-wrap items-center gap-4">
-                        {/* Rating */}
-                        <div className="flex items-center gap-2">
+                    <div className="flex flex-raw items-center gap-4 ">
+                        <div className="flex items-center gap-2 ">
                             <div className="flex items-center">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                     <Star
@@ -101,14 +85,11 @@ const BookDetail = () => {
                                 {rating?.toFixed(1)} / 5.0
                             </span>
                         </div>
-
-                        {/* Price */}
-                        <div className="text-lg md:text-xl font-semibold text-primary">
-                            ${price?.toFixed(2)}
-                        </div>
+                    </div>
+                    <div className="text-xl md:text-xl lg:text-2xl font-bold text-primary">
+                        ${price?.toFixed(2)}
                     </div>
 
-                    {/* Meta info grid */}
                     <div className="grid grid-cols-2 gap-3 text-xs md:text-sm">
                         <div className="flex items-center gap-2 bg-base-200 rounded-xl px-3 py-2">
                             <Calendar size={16} className="text-base-content/70" />
@@ -151,7 +132,6 @@ const BookDetail = () => {
                         </div>
                     </div>
 
-                    {/* Description */}
                     <div className="space-y-2">
                         <h2 className="text-base md:text-lg font-semibold">
                             About this book
@@ -161,7 +141,7 @@ const BookDetail = () => {
                         </p>
                     </div>
 
-                    {/* Actions */}
+
                     <div className="flex flex-wrap gap-3 pt-2">
                         <Link to="/order" className="btn btn-primary">
                             Request from Library
@@ -171,7 +151,6 @@ const BookDetail = () => {
                         </button>
                     </div>
 
-                    {/* Timestamps */}
                     <div className="pt-0 text-[11px] text-base-content/60 space-y-1">
                         {createdDate && (
                             <p>
