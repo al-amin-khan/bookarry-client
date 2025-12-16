@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import Loading from "../components/Loading";
 import useAxiosPublic from "../hooks/useAxios";
 import { useQuery } from '@tanstack/react-query';
+import Skeleton from "../components/Skeleton";
 
 const Books = () => {
     const axios = useAxiosPublic();
@@ -25,9 +26,9 @@ const Books = () => {
         return <div className='text-error text-center text-lg'>Error: {error.message}</div>;
     }
 
-    if (isLoading) {
-        return <Loading message="Loading books" />;
-    }
+    // if (isLoading) {
+    //     return <Loading message="Loading books" />;
+    // }
 
     const handleBookSearch = (e) => {
         e.preventDefault();
@@ -56,14 +57,19 @@ const Books = () => {
 
             <div className="grid grid-cols-4 gap-4">
                 {
-                    filteredBooks?.length === 0 ?
+                    isLoading ?
                         (
-                            <div className="text-error text-center text-lg">No books found</div>
+                            Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} />)
                         )
                         :
-                        (
-                            filteredBooks?.map(book => <Card key={book._id} book={book} />)
-                        )
+                        filteredBooks?.length === 0 ?
+                            (
+                                <div className="text-error text-center text-lg">No books found</div>
+                            )
+                            :
+                            (
+                                filteredBooks?.map(book => <Card key={book._id} book={book} />)
+                            )
                 }
             </div>
         </div >
