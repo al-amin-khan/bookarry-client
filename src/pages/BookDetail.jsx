@@ -25,8 +25,10 @@ const BookDetail = () => {
     const createdDate = created_at ? new Date(created_at) : null;
     const updatedDate = updated_at ? new Date(updated_at) : null;
 
+    console.log({error})
+
     if (isError) {
-        return <div className='text-error text-center text-lg'>Error: {error.message}</div>;
+        return <div className='text-red-400 text-center text-xl font-bold py-8'>{error.response.data.message}</div>;
     }
 
     if (isLoading) {

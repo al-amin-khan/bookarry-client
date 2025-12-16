@@ -19,9 +19,6 @@ const Navbar = () => {
     const location = useLocation();
     const isLoginPage = location.pathname === '/auth/login';
 
-    if (loading) {
-        return <Loading message="Authenticating" />
-    }
 
     const handleLogOut = () => {
         logOut()
@@ -79,73 +76,80 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                {user && !isLoginPage ? (
-                    <div className="dropdown dropdown-end">
-                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                            <div className="w-9 rounded-full ring-2 ring-primary/40">
-                                {user.photoURL ? (
-                                    <img
-                                        src={user.photoURL}
-                                        alt={user.name}
-                                        className="object-cover"
-                                        referrerPolicy='no-referrer'
-                                    />
-                                ) : (
-                                    <div className="flex h-full w-full items-center justify-center bg-base-200">
-                                        <UserIcon size={18} />
+                {
+                    loading ?
+                        <div className="h-10-w-full">
+                            <Loading />
+                        </div>
+                        :
+                        user && !isLoginPage ? (
+                            <div className="dropdown dropdown-end">
+                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-9 rounded-full ring-2 ring-primary/40">
+                                        {user.photoURL ? (
+                                            <img
+                                                src={user.photoURL}
+                                                alt={user.name}
+                                                className="object-cover"
+                                                referrerPolicy='no-referrer'
+                                            />
+                                        ) : (
+                                            <div className="flex h-full w-full items-center justify-center bg-base-200">
+                                                <UserIcon size={18} />
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                        </label>
-                        <ul
-                            tabIndex={0}
-                            className="mt-3 w-56 menu menu-sm dropdown-content bg-base-100 rounded-box shadow-lg border border-base-200"
-                        >
-                            <li className="menu-title px-3 pt-3 pb-1">
-                                <span className="text-xs uppercase tracking-wide text-base-content/60">
-                                    Signed in as
-                                </span>
-                                <span className="text-sm font-semibold truncate">
-                                    {user.name}
-                                </span>
-                                <span className="text-xs text-base-content/60 truncate">
-                                    {user.email}
-                                </span>
-                            </li>
-                            <div className="divider my-1" />
-                            <li>
-                                <Link to="/dashboard" className="flex items-center gap-2">
-                                    <LucideLayoutDashboard size={16} />
-                                    <span className='font-semibold text-gray-700'>Dashboard</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <button
-                                    type="button"
-                                    className="flex items-center gap-2"
-                                    onClick={handleLogOut}
+                                </label>
+                                <ul
+                                    tabIndex={0}
+                                    className="mt-3 w-56 menu menu-sm dropdown-content bg-base-100 rounded-box shadow-lg border border-base-200"
                                 >
-                                    <LogOut size={16} />
-                                    <span>Sign out</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-2">
-                        {
-                            isLoginPage ? (
-                                <Link to="/auth/register" className="btn btn-primary">
-                                    Register
-                                </Link>
-                            ) : (
-                                <Link to="/auth/login" className="btn btn-primary">
-                                    Login
-                                </Link>
-                            )
-                        }
-                    </div>
-                )}
+                                    <li className="menu-title px-3 pt-3 pb-1">
+                                        <span className="text-xs uppercase tracking-wide text-base-content/60">
+                                            Signed in as
+                                        </span>
+                                        <span className="text-sm font-semibold truncate">
+                                            {user.name}
+                                        </span>
+                                        <span className="text-xs text-base-content/60 truncate">
+                                            {user.email}
+                                        </span>
+                                    </li>
+                                    <div className="divider my-1" />
+                                    <li>
+                                        <Link to="/dashboard" className="flex items-center gap-2">
+                                            <LucideLayoutDashboard size={16} />
+                                            <span className='font-semibold text-gray-700'>Dashboard</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type="button"
+                                            className="flex items-center gap-2"
+                                            onClick={handleLogOut}
+                                        >
+                                            <LogOut size={16} />
+                                            <span>Sign out</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                {
+                                    isLoginPage ? (
+                                        <Link to="/auth/register" className="btn btn-primary">
+                                            Register
+                                        </Link>
+                                    ) : (
+                                        <Link to="/auth/login" className="btn btn-primary">
+                                            Login
+                                        </Link>
+                                    )
+                                }
+                            </div>
+                        )
+                }
 
                 <button
                     className="btn btn-ghost btn-square ml-2"
