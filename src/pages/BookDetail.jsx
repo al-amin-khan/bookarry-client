@@ -146,7 +146,7 @@ const BookDetail = () => {
 
                     <div className="flex flex-wrap gap-3 pt-2">
                         <Link to="/order" className="btn btn-primary">
-                            Request from Library
+                            Order Now
                         </Link>
                         <button className="btn btn-outline btn-secondary">
                             Add to Wishlist

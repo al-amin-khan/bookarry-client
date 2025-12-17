@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
-import Loading from "../components/Loading";
 import useAxiosPublic from "../hooks/useAxios";
 import { useQuery } from '@tanstack/react-query';
 import Skeleton from "../components/Skeleton";
@@ -25,10 +24,6 @@ const Books = () => {
     if (isError) {
         return <div className='text-error text-center text-lg'>Error: {error.message}</div>;
     }
-
-    // if (isLoading) {
-    //     return <Loading message="Loading books" />;
-    // }
 
     const handleBookSearch = (e) => {
         e.preventDefault();

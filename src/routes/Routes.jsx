@@ -7,6 +7,8 @@ import BookDetail from "../pages/BookDetail";
 import AuthLayout from './../layouts/AuthLayout';
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import DashboardLayout from "../layouts/DashboardLayout";
+import Dashboard from './../pages/Dashboard';
 
 
 const router = createBrowserRouter([
@@ -46,6 +48,21 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 Component: Register
+            },
+            {
+                path: '*',
+                Component: PageNotFound
+            }
+        ]
+    },
+    {
+        path: 'dashboard',
+        Component: DashboardLayout,
+        errorElement: <PageNotFound />,
+        children: [
+            {
+                index: true,
+                Component: Dashboard
             },
             {
                 path: '*',
