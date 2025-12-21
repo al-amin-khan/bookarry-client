@@ -20,10 +20,6 @@ const Register = () => {
     const navigate = useNavigate();
 
     const handleRegister = (data) => {
-        console.log(data)
-
-        console.log(data.name);
-
         setIsSubmitting(true);
         registerUser(data.email, data.password)
             .then((res) => {

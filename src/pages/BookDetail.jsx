@@ -1,15 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import Loading from '../components/Loading';
-import useAxiosPublic from '../hooks/useAxios';
 import { Link } from "react-router";
 import { Star, BookOpen, Calendar, FileText, Tag, Hash } from "lucide-react";
 import { format } from './../../node_modules/date-fns/format';
+import { useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import useAuth from '../hooks/useAuth';
+import { generateOrderId } from '../utils/generateOrderId';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import { update } from './../../node_modules/sweetalert2/src/instanceMethods/update';
 
 const BookDetail = () => {
     const { id } = useParams();
-
-    const axios = useAxiosPublic();
+    const { user } = useAuth();
+    const axios = useAxiosSecure();
+    const modalRef = useRef(null);
 
     const { data: book, isLoading, isError, error } = useQuery({
         queryKey: ['book', id],
@@ -19,20 +27,89 @@ const BookDetail = () => {
         }
     })
 
+    console.log(book?.title)
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm({
+        defaultValues: {
+            order: generateOrderId(),
+            book_id: id,
+            book_title: book?.title || '',
+            name: user?.displayName || '',
+            email: user?.email || '',
+            phone: '',
+            address: '',
+            order_status: 'pending',
+            payment_status: 'unpaid',
+            price: book?.price,
+            created_at: new Date(),
+            update_at: new Date(),
+        }
+    });
+
+    useEffect(() => {
+        reset({
+            order: generateOrderId(),
+            book_id: id,
+            book_title: book?.title,
+            name: user?.displayName || '',
+            email: user?.email || '',
+            phone: '',
+            address: '',
+            price: book?.price,
+            order_status: 'pending',
+            payment_status: 'unpaid',
+            created_at: new Date(),
+            update_at: new Date(),
+        });
+    }, [user,id,  reset, book]);
+
+
+
     const { title, author, published_year, genre, price, rating, image, long_description, page_count, isbn_13, created_at, updated_at } = book || {};
 
     const roundedRating = Math.round(rating || 0);
     const createdDate = created_at ? new Date(created_at) : null;
     const updatedDate = updated_at ? new Date(updated_at) : null;
 
-    console.log({error})
-
     if (isError) {
-        return <div className='text-red-400 text-center text-xl font-bold py-8'>{error.response.data.message}</div>;
+        return <div className='text-red-400 text-center text-xl font-bold py-8'>{error.response.data.message || error.message}</div>;
     }
 
     if (isLoading) {
         return <Loading message="Loading books detail" />;
+    }
+
+
+    const handlePlaceOrderModal = () => {
+        modalRef.current.showModal();
+    }
+
+    const handlePlaceOrder = (data) => {
+        console.log(data );
+        axios.post('/orders', data)
+            .then(res => {
+                if (res.data.success) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your order has been placed successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    reset();
+                    modalRef.current.close();
+                }
+            })
+            .catch(error => {
+                toast.error(error.response.data.message);
+            });
+
     }
 
     return (
@@ -145,9 +222,9 @@ const BookDetail = () => {
 
 
                     <div className="flex flex-wrap gap-3 pt-2">
-                        <Link to="/order" className="btn btn-primary">
+                        <button onClick={handlePlaceOrderModal} className="btn btn-primary">
                             Order Now
-                        </Link>
+                        </button>
                         <button className="btn btn-outline btn-secondary">
                             Add to Wishlist
                         </button>
@@ -169,6 +246,41 @@ const BookDetail = () => {
                     </div>
                 </div>
             </div>
+
+
+            {/* modal section */}
+            <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box w-96 mx-auto text-center">
+                    <h3 className="font-bold text-lg">Place Order</h3>
+                    <div className="">
+                        <form onSubmit={handleSubmit(handlePlaceOrder)}>
+                            <fieldset className="fieldset">
+                                <label className="label">Name</label>
+                                <input type="text" className="input" placeholder="Name" {...register("name")} readOnly  disabled/>
+
+                                <label className="label">Email</label>
+                                <input type="email" className="input" placeholder="Email" {...register("email")} readOnly disabled/>
+
+                                <label className="label">Phone</label>
+                                <input type="text" className="input" placeholder="Phone" {...register("phone")} />
+
+                                <label className="label">Address</label>
+                                <input type="text" className="input" placeholder="Address" {...register("address")} />
+
+                                <button className="btn btn-primary mt-4" type="submit">
+                                    Place Order
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </section>
     );
 };

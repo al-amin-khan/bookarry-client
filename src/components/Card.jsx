@@ -31,7 +31,7 @@ const Card = ({ book }) => {
                     </div>
                     <div className="card-actions justify-between">
                         <span className="text-lg font-bold text-primary">${book.price}</span>
-                        <button className="btn btn-primary btn-sm">Order Now</button>
+                        <Link to={`/books/${book._id}`} className="btn btn-primary btn-sm">Order Now</Link>
                     </div>
                 </div>
             </div>

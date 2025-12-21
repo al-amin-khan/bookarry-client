@@ -9,7 +9,6 @@ const axiosSecure = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    
 });
 
 const useAxiosSecure = () => {
@@ -18,13 +17,13 @@ const useAxiosSecure = () => {
     useEffect(() => {
         // interceptor request
         const requestInterceptor = axiosSecure.interceptors.request.use(config => {
-            config.headers.Authorization = `Bearer ${user.accessToken}`;
+            config.headers.Authorization = `Bearer ${user?.accessToken}`;
             return config; 
         })
 
         // interceptor response
         const responseInterceptor = axiosSecure.interceptors.response.use(response => response, async error => {
-            if (error.response.status === 401 || error.response.status === 403) {
+            if (error.response?.status === 401 || error.response?.status === 403) {
                 await logOut();
                 Navigate('/login');
             }

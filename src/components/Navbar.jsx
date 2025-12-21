@@ -9,7 +9,8 @@ const Navbar = () => {
     const navItems = [
         { id: 1, name: 'Home', path: '/', protected: false },
         { id: 2, name: 'Books', path: '/books', protected: false },
-        { id: 3, name: 'Dashboard', path: '/dashboard', protected: false },
+        { id: 3, name: 'Dashboard', path: '/dashboard', protected: true },
+        { id: 4, name: 'Orders', path: '/orders', protected: true },
     ]
 
     const { theme, toggleTheme } = useTheme();
