@@ -46,7 +46,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+                                    <NavLink to="/dashboard/orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Orders">
                                         {/* Home icon */}
                                         <div className='flex flex-col items-center justify-center'>
                                             <ClipboardList size={20} />
@@ -55,7 +55,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/invoices" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+                                    <NavLink to="/dashboard/invoices" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Invoices">
                                         {/* Home icon */}
                                         <div className='flex flex-col items-center justify-center'>
                                             <FaFileInvoice size={20} />

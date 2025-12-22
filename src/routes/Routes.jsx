@@ -8,11 +8,14 @@ import AuthLayout from './../layouts/AuthLayout';
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import DashboardLayout from "../layouts/DashboardLayout";
-import Dashboard from './../pages/Dashboard';
 import ProtectedRoute from './../auth/ProtectedRoute';
 import Orders from './../pages/Orders';
 import PaymentSuccess from "../pages/PaymentSuccess";
 import PaymentCanceled from "../pages/PaymentCanceled";
+import AdminRoute from "../auth/AdminRoute";
+import AddBook from "../pages/AddBook";
+import Invoices from "../pages/Invoices";
+import Profile from "../pages/Profile";
 
 
 const router = createBrowserRouter([
@@ -33,10 +36,6 @@ const router = createBrowserRouter([
             {
                 path: '/books/:id',
                 element: <ProtectedRoute><BookDetail /></ProtectedRoute>
-            },
-            {
-                path: 'orders',
-                element: <ProtectedRoute><Orders /></ProtectedRoute>
             },
             {
                 path: '*',
@@ -70,7 +69,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <ProtectedRoute><Dashboard /></ProtectedRoute>
+                element: <ProtectedRoute><Orders /></ProtectedRoute>
             },
             {
                 path: 'orders',
@@ -83,6 +82,24 @@ const router = createBrowserRouter([
             {
                 path: 'payment-canceled',
                 Component: PaymentCanceled
+            },
+            {
+                path: 'invoices',
+                element: <ProtectedRoute><Invoices /></ProtectedRoute>
+            },
+            {
+                path: 'profile',
+                element: <ProtectedRoute><Profile /></ProtectedRoute>
+            },
+            {
+                path: 'add-book',
+                element: (
+                    <ProtectedRoute>
+                        <AdminRoute>
+                            <AddBook />
+                        </AdminRoute>
+                    </ProtectedRoute>
+                )
             },
             {
                 path: '*',

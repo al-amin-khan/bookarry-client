@@ -5,8 +5,10 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const Register = () => {
+    const axios = useAxiosSecure();
     const { registerUser, updateUserProfile, setUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const {
@@ -36,6 +38,24 @@ const Register = () => {
                         position: 'bottom-left',
                     });
                 });
+
+                const userData = {
+                    name: data.name,
+                    email: data.email,
+                    photoURL: data?.photoURL || null,
+                    role: 'user',
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                    status: 'active',
+                };
+
+                axios.post('/users/register', userData)
+                    .then((res) => {
+                        console.log(res.data);
+                    })
+                    .catch((error) => {
+                        console.error('Error saving user data:', error);
+                    });
 
                 toast.success(`Welcome, ${data.name}, you have successfully registered.`, {
                     duration: 6000,
@@ -70,8 +90,9 @@ const Register = () => {
                             {errors.name && <span className="text-red-500">This field is required</span>}
 
                             <label className="label text-neutral/90">Email</label>
-                            <input type="email" className="input w-full" placeholder="Email" {...register("email", { required: true })} />
+                            <input type="email" className="input w-full" placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+\.\S+$/})} />
                             {errors.email?.type === 'required' && <span className="text-red-500">This field is required</span>}
+                            {errors.email?.type === 'pattern' && <span className="text-red-500">Invalid email format</span>}
 
                             <label className="label text-neutral/90">Password</label>
                             <label className="input w-full">
@@ -93,6 +114,9 @@ const Register = () => {
                             {errors.password?.type === 'min' && <span className="text-red-500">Password must be at least 6 characters</span>}
                             {errors.password?.type === 'max' && <span className="text-red-500">Password must be less than 100 characters</span>}
                             {errors.password?.type === 'pattern' && <span className="text-red-500">Password must contain at least one uppercase letter, one lowercase letter, and one number</span>}
+
+                            <label className="label text-neutral/90">Photo URL</label>
+                            <input type="text" className="input w-full" placeholder="Photo URL" {...register("photoURL")} />
 
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-primary text-neutral mt-4">

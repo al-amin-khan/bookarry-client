@@ -12,8 +12,7 @@ const PaymentSuccess = () => {
         const confirmPayment = async () => {
             if (sessionId) {
                 const res = await axios.patch(`/payments/confirm-payments?session_id=${sessionId}`);
-                console.log('hitted in sessionid')
-                console.log(res.data.data);
+                return res.data?.data
             }
         };
         confirmPayment();

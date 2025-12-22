@@ -1,7 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router';
 import BrandLogo from './BrandLogo';
 import useAuth from '../hooks/useAuth';
-import { LogOut, LucideLayoutDashboard, Moon, Sun, UserIcon } from 'lucide-react';
+import { LogOut, LucideLayoutDashboard, LucideUserSquare2, Moon, Sun, UserIcon } from 'lucide-react';
 import Loading from './Loading';
 import { useTheme } from './../hooks/useTheme';
 
@@ -10,7 +10,6 @@ const Navbar = () => {
         { id: 1, name: 'Home', path: '/', protected: false },
         { id: 2, name: 'Books', path: '/books', protected: false },
         { id: 3, name: 'Dashboard', path: '/dashboard', protected: true },
-        { id: 4, name: 'Orders', path: '/orders', protected: true },
     ]
 
     const { theme, toggleTheme } = useTheme();
@@ -121,6 +120,10 @@ const Navbar = () => {
                                         <Link to="/dashboard" className="flex items-center gap-2">
                                             <LucideLayoutDashboard size={16} />
                                             <span className='font-semibold text-gray-700'>Dashboard</span>
+                                        </Link>
+                                        <Link to="/dashboard/profile" className="flex items-center gap-2">
+                                            <LucideUserSquare2 size={16} />
+                                            <span className='font-semibold text-gray-700'>Profile</span>
                                         </Link>
                                     </li>
                                     <li>
