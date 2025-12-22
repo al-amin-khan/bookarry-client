@@ -16,6 +16,8 @@ import AdminRoute from "../auth/AdminRoute";
 import AddBook from "../pages/AddBook";
 import Invoices from "../pages/Invoices";
 import Profile from "../pages/Profile";
+import EditBook from "../pages/EditBook";
+import Dashboard from './../pages/Dashboard';
 
 
 const router = createBrowserRouter([
@@ -69,7 +71,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <ProtectedRoute><Orders /></ProtectedRoute>
+                element: <ProtectedRoute><Dashboard /></ProtectedRoute>
             },
             {
                 path: 'orders',
@@ -97,6 +99,16 @@ const router = createBrowserRouter([
                     <ProtectedRoute>
                         <AdminRoute>
                             <AddBook />
+                        </AdminRoute>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'books/:id/edit',
+                element: (
+                    <ProtectedRoute>
+                        <AdminRoute>
+                            <EditBook />
                         </AdminRoute>
                     </ProtectedRoute>
                 )
