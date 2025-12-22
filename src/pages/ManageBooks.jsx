@@ -24,14 +24,14 @@ const ManageBooks = () => {
         },
     });
 
-    const handleUnpublish = async (bookId) => {
+    const handleToggleStatus = async (bookId, nextStatus) => {
         try {
-            const res = await axiosSecure.patch(`/books/${bookId}`, {
-                status: 'unpublished',
+            const res = await axiosSecure.patch(`/books/${bookId}/status`, {
+                status: nextStatus,
                 updated_at: new Date(),
             });
             if (res.data?.success) {
-                toast.success('Book unpublished successfully.');
+                toast.success(`Book ${nextStatus} successfully.`);
             } else {
                 toast.success('Book status updated.');
             }
@@ -118,11 +118,21 @@ const ManageBooks = () => {
                                                 </Link>
                                                 <button
                                                     type="button"
-                                                    className="btn btn-xs btn-warning"
-                                                    disabled={book.status === 'unpublished'}
-                                                    onClick={() => handleUnpublish(book._id)}
+                                                    className={`btn btn-xs ${
+                                                        book.status === 'unpublished'
+                                                            ? 'btn-success'
+                                                            : 'btn-warning'
+                                                    }`}
+                                                    onClick={() =>
+                                                        handleToggleStatus(
+                                                            book._id,
+                                                            book.status === 'unpublished'
+                                                                ? 'published'
+                                                                : 'unpublished'
+                                                        )
+                                                    }
                                                 >
-                                                    Unpublish
+                                                    {book.status === 'unpublished' ? 'Publish' : 'Unpublish'}
                                                 </button>
                                             </td>
                                         </tr>
