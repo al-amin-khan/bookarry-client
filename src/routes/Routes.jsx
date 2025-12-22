@@ -18,6 +18,12 @@ import Invoices from "../pages/Invoices";
 import Profile from "../pages/Profile";
 import EditBook from "../pages/EditBook";
 import Dashboard from './../pages/Dashboard';
+import LibrarianRoute from "../auth/LibrarianRoute";
+import StaffRoute from "../auth/StaffRoute";
+import MyBooks from "../pages/MyBooks";
+import LibrarianOrders from "../pages/LibrarianOrders";
+import AllUsers from "../pages/AllUsers";
+import ManageBooks from "../pages/ManageBooks";
 
 
 const router = createBrowserRouter([
@@ -97,9 +103,9 @@ const router = createBrowserRouter([
                 path: 'add-book',
                 element: (
                     <ProtectedRoute>
-                        <AdminRoute>
+                        <StaffRoute>
                             <AddBook />
-                        </AdminRoute>
+                        </StaffRoute>
                     </ProtectedRoute>
                 )
             },
@@ -107,8 +113,48 @@ const router = createBrowserRouter([
                 path: 'books/:id/edit',
                 element: (
                     <ProtectedRoute>
-                        <AdminRoute>
+                        <LibrarianRoute>
                             <EditBook />
+                        </LibrarianRoute>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'my-books',
+                element: (
+                    <ProtectedRoute>
+                        <LibrarianRoute>
+                            <MyBooks />
+                        </LibrarianRoute>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'librarian-orders',
+                element: (
+                    <ProtectedRoute>
+                        <LibrarianRoute>
+                            <LibrarianOrders />
+                        </LibrarianRoute>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'all-users',
+                element: (
+                    <ProtectedRoute>
+                        <AdminRoute>
+                            <AllUsers />
+                        </AdminRoute>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'manage-books',
+                element: (
+                    <ProtectedRoute>
+                        <AdminRoute>
+                            <ManageBooks />
                         </AdminRoute>
                     </ProtectedRoute>
                 )

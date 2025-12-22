@@ -20,6 +20,13 @@ const Orders = () => {
         return <div className='text-error text-center text-lg'>Error: {error.message}</div>;
     }
 
+    const formatDate = (value) => {
+        if (!value) return 'Not available';
+        const resolvedValue = typeof value === 'object' ? value?.$date : value;
+        const date = new Date(resolvedValue);
+        return Number.isNaN(date.getTime()) ? 'Not available' : date.toLocaleDateString();
+    };
+
     const handlePayment = async (order, status) => {
         console.log(order, status);
 
@@ -73,15 +80,16 @@ const Orders = () => {
                 <div className="overflow-x-auto">
                     <table className="table table-sm">
                         <thead>
-                            <tr>
-                                <th></th>
-                                <th>Order</th>
-                                <th>Book</th>
-                                <th>Price</th>
-                                <th>Address</th>
-                                <th>Order Status</th>
-                                <th>Payment Status</th>
-                                <th>Actions</th>
+                                    <tr>
+                                        <th></th>
+                                        <th>Order</th>
+                                        <th>Book</th>
+                                        <th>Order Date</th>
+                                        <th>Price</th>
+                                        <th>Address</th>
+                                        <th>Order Status</th>
+                                        <th>Payment Status</th>
+                                        <th>Actions</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -93,6 +101,7 @@ const Orders = () => {
                                         <th>{index + 1}</th>
                                         <td>{order?.order}</td>
                                         <td className='mx-2'>{order.book_title}</td>
+                                        <td>{formatDate(order?.created_at || order?.createdAt || order?.date)}</td>
                                         <td>${order.price}</td>
                                         <td>
                                             <div>
@@ -120,20 +129,30 @@ const Orders = () => {
                                             }
                                         </td>
                                         <td>
-                                            {
-                                                order.payment_status === 'unpaid' && order.order_status !== 'canceled' ?
-                                                    <div className='flex flex-row gap-1 justify-center items-center pr-1'>
-                                                        <button onClick={() => handlePayment(order, "pay")} className='btn btn-sm btn-primary'>Pay Now</button>
-                                                        <button onClick={() => handlePayment(order, "cancel")} className='btn btn-sm btn-error'>Cancel Order</button>
-                                                    </div>
-                                                    :
-                                                    <button className='btn hover:cursor-not-allowed disabled:cursor-not-allowed'>
-                                                        {
-                                                            order.payment_status === 'paid' ? 'Paid' :
-                                                                order.order_status === 'canceled' ? 'Canceled' : 'N/A'
-                                                        }
+                                            {order.order_status === 'pending' && order.payment_status === 'unpaid' ? (
+                                                <div className="flex flex-row gap-1 justify-center items-center pr-1">
+                                                    <button
+                                                        onClick={() => handlePayment(order, 'pay')}
+                                                        className="btn btn-sm btn-primary"
+                                                    >
+                                                        Pay Now
                                                     </button>
-                                            }
+                                                    <button
+                                                        onClick={() => handlePayment(order, 'cancel')}
+                                                        className="btn btn-sm btn-error"
+                                                    >
+                                                        Cancel Order
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <button className="btn hover:cursor-not-allowed disabled:cursor-not-allowed">
+                                                    {order.payment_status === 'paid'
+                                                        ? 'Paid'
+                                                        : order.order_status === 'canceled'
+                                                            ? 'Canceled'
+                                                            : 'N/A'}
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>)
                             }
