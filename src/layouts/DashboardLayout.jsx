@@ -1,16 +1,33 @@
 import React from 'react';
-import Footer from '../components/Footer';
-import Navbar from './../components/Navbar';
-import { Link, NavLink, Outlet } from 'react-router';
-import Orders from './../pages/Orders';
-import { ClipboardList } from 'lucide-react';
-import { FaFileInvoice } from "react-icons/fa";
+import { NavLink, Outlet } from 'react-router';
+import { BookOpen, ClipboardList, Settings, User, Users } from 'lucide-react';
+import { FaFileInvoice } from 'react-icons/fa';
+import useRole from '../hooks/useRole';
 
 const DashboardLayout = () => {
 
-    // const navItems = [
-    //     {id: 1, name: 'Home', path: '/', protected: false},
-    // ]
+    const { role, isUserRoleLoading } = useRole();
+    const activeRole = role || 'user';
+
+    const navLinksByRole = {
+        user: [
+            { to: '/dashboard/orders', label: 'My Orders', icon: ClipboardList, tip: 'Orders' },
+            { to: '/dashboard/invoices', label: 'Invoices', icon: FaFileInvoice, tip: 'Invoices' },
+            { to: '/dashboard/profile', label: 'My Profile', icon: User, tip: 'Profile' },
+        ],
+        librarian: [
+            { to: '/dashboard/add-book', label: 'Add Book', icon: BookOpen, tip: 'Add Book' },
+            { to: '/dashboard/my-books', label: 'My Books', icon: BookOpen, tip: 'My Books' },
+            { to: '/dashboard/librarian-orders', label: 'Orders', icon: ClipboardList, tip: 'Orders' },
+        ],
+        admin: [
+            { to: '/dashboard/all-users', label: 'All Users', icon: Users, tip: 'Users' },
+            { to: '/dashboard/manage-books', label: 'Manage Books', icon: Settings, tip: 'Manage Books' },
+            { to: '/dashboard/profile', label: 'My Profile', icon: User, tip: 'Profile' },
+        ],
+    };
+
+    const navLinks = navLinksByRole[activeRole] || navLinksByRole.user;
 
     return (
         <div className='bg-base-200'>
@@ -45,24 +62,29 @@ const DashboardLayout = () => {
                                         <span className="is-drawer-close:hidden">Home</span>
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink to="/dashboard/orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Orders">
-                                        {/* Home icon */}
-                                        <div className='flex flex-col items-center justify-center'>
-                                            <ClipboardList size={20} />
-                                        </div>
-                                        <span className="is-drawer-close:hidden">Orders</span>
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/dashboard/invoices" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Invoices">
-                                        {/* Home icon */}
-                                        <div className='flex flex-col items-center justify-center'>
-                                            <FaFileInvoice size={20} />
-                                        </div>
-                                        <span className="is-drawer-close:hidden">Invoices</span>
-                                    </NavLink>
-                                </li>
+                                {isUserRoleLoading ? (
+                                    <li className="px-4 py-2 text-sm text-base-content/60">
+                                        Loading menu...
+                                    </li>
+                                ) : (
+                                    navLinks.map((item) => {
+                                        const Icon = item.icon;
+                                        return (
+                                            <li key={item.to}>
+                                                <NavLink
+                                                    to={item.to}
+                                                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                                    data-tip={item.tip}
+                                                >
+                                                    <div className="flex flex-col items-center justify-center">
+                                                        <Icon size={20} />
+                                                    </div>
+                                                    <span className="is-drawer-close:hidden">{item.label}</span>
+                                                </NavLink>
+                                            </li>
+                                        );
+                                    })
+                                )}
                             </ul>
                         </div>
                     </div>

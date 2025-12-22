@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { Link, useParams } from 'react-router';
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 
-const AddBook = () => {
+const EditBook = () => {
+    const { id } = useParams();
     const axiosSecure = useAxiosSecure();
+
+    const {
+        data: book,
+        isLoading,
+        isError,
+        error,
+    } = useQuery({
+        queryKey: ['book', id],
+        enabled: !!id,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/books/${id}`);
+            return res.data.data;
+        },
+    });
+
     const {
         register,
         handleSubmit,
@@ -26,7 +45,26 @@ const AddBook = () => {
         },
     });
 
-    const handlePublish = async (data) => {
+    const getFormValues = (source) => ({
+        title: source?.title || '',
+        author: source?.author || '',
+        genre: source?.genre || '',
+        price: source?.price ?? '',
+        rating: source?.rating ?? 5,
+        published_year: source?.published_year ?? '',
+        page_count: source?.page_count ?? '',
+        isbn_13: source?.isbn_13 || '',
+        image: source?.image || '',
+        long_description: source?.long_description || '',
+        status: source?.status || 'published',
+    });
+
+    useEffect(() => {
+        if (!book) return;
+        reset(getFormValues(book));
+    }, [book, reset]);
+
+    const handleUpdate = async (data) => {
         const payload = {
             title: data.title.trim(),
             author: data.author.trim(),
@@ -39,36 +77,45 @@ const AddBook = () => {
             image: data.image.trim(),
             long_description: data.long_description.trim(),
             status: data.status,
-            created_at: new Date(),
             updated_at: new Date(),
         };
 
         try {
-            const res = await axiosSecure.post('/books', payload);
+            const res = await axiosSecure.patch(`/books/${id}`, payload);
             if (res.data?.success) {
-                toast.success('Book published successfully.');
+                toast.success('Book updated successfully.');
             } else {
-                toast.success('Book published.');
+                toast.success('Book updated.');
             }
-            reset();
-        } catch (error) {
-            toast.error(error.response?.data?.message || error.message);
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message);
         }
     };
+
+    if (isError) {
+        return <div className="text-center text-error">Error: {error.message}</div>;
+    }
+
+    if (isLoading) {
+        return <Loading message="Loading book..." />;
+    }
 
     return (
         <div className="w-11/12 mx-auto py-8">
             <div className="w-full max-w-4xl mx-auto">
-                <div className="mb-6">
-                    <h1 className="text-3xl font-semibold">Publish a New Book</h1>
-                    <p className="text-base-content/70">
-                        Add book details so readers can discover and order it.
-                    </p>
+                <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl font-semibold">Edit Book</h1>
+                        <p className="text-base-content/70">Update the details for this book.</p>
+                    </div>
+                    <Link to="/dashboard" className="btn btn-ghost">
+                        Back to Dashboard
+                    </Link>
                 </div>
 
                 <div className="card bg-base-100 shadow-xl">
                     <div className="card-body">
-                        <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit(handlePublish)}>
+                        <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit(handleUpdate)}>
                             <label className="form-control w-full">
                                 <span className="label-text text-sm font-medium">Title</span>
                                 <input
@@ -244,9 +291,14 @@ const AddBook = () => {
 
                             <div className="flex flex-wrap gap-3 md:col-span-2">
                                 <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                                    {isSubmitting ? 'Publishing...' : 'Publish Book'}
+                                    {isSubmitting ? 'Saving...' : 'Save changes'}
                                 </button>
-                                <button className="btn btn-ghost" type="button" onClick={() => reset()} disabled={isSubmitting}>
+                                <button
+                                    className="btn btn-ghost"
+                                    type="button"
+                                    onClick={() => reset(getFormValues(book))}
+                                    disabled={isSubmitting}
+                                >
                                     Reset
                                 </button>
                             </div>
@@ -258,4 +310,4 @@ const AddBook = () => {
     );
 };
 
-export default AddBook;
+export default EditBook;
