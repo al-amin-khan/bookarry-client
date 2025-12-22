@@ -18,7 +18,8 @@ const Books = () => {
     })
 
     useEffect(() => {
-        setFilteredBooks(books);
+        const visibleBooks = books?.filter((book) => book?.status !== 'unpublished');
+        setFilteredBooks(visibleBooks);
     }, [books])
 
     if (isError) {

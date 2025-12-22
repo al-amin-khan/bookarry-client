@@ -22,6 +22,7 @@ const AddBook = () => {
             isbn_13: '',
             image: '',
             long_description: '',
+            status: 'published',
         },
     });
 
@@ -37,6 +38,7 @@ const AddBook = () => {
             isbn_13: data.isbn_13.trim(),
             image: data.image.trim(),
             long_description: data.long_description.trim(),
+            status: data.status,
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -159,6 +161,20 @@ const AddBook = () => {
                                 />
                                 {errors.published_year && (
                                     <span className="mt-1 text-xs text-error">{errors.published_year.message}</span>
+                                )}
+                            </label>
+
+                            <label className="form-control w-full">
+                                <span className="label-text text-sm font-medium">Status</span>
+                                <select
+                                    className="select select-bordered w-full"
+                                    {...register('status', { required: 'Status is required' })}
+                                >
+                                    <option value="published">Published</option>
+                                    <option value="unpublished">Unpublished</option>
+                                </select>
+                                {errors.status && (
+                                    <span className="mt-1 text-xs text-error">{errors.status.message}</span>
                                 )}
                             </label>
 
