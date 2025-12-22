@@ -60,9 +60,6 @@ const Invoices = () => {
         }).format(normalizedAmount);
     };
 
-    const getBookTitle = (payment) =>
-        payment?.book_title || payment?.title || payment?.bookName || 'N/A';
-
     if (isError) {
         return <div className="text-center text-error">Error: {error.message}</div>;
     }

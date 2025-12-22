@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
 import Loading from '../components/Loading';
 import useAuth from '../hooks/useAuth';
 import useRole from '../hooks/useRole';
@@ -8,16 +9,26 @@ import useRole from '../hooks/useRole';
 const Profile = () => {
     const { user, loading, updateUserProfile, setUser } = useAuth();
     const { role, isUserRoleLoading } = useRole();
-    const [formValues, setFormValues] = useState({ name: '', photoURL: '' });
-    const [isSaving, setIsSaving] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors, isSubmitting },
+    } = useForm({
+        defaultValues: {
+            name: '',
+            photoURL: '',
+        },
+    });
 
     useEffect(() => {
         if (!user) return;
-        setFormValues({
+        reset({
             name: user.displayName || user.name || '',
             photoURL: user.photoURL || '',
         });
-    }, [user]);
+    }, [reset, user]);
 
     const formatDate = (value) => {
         if (!value) return 'Not available';
@@ -52,42 +63,33 @@ const Profile = () => {
     const displayName = user.displayName || user.name || 'Anonymous reader';
     const email = user.email || 'Not provided';
     const provider = user.providerData?.[0]?.providerId?.replace('.com', '') || 'Email';
-    const canSubmit = formValues.name.trim().length > 0;
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormValues((prev) => ({ ...prev, [name]: value }));
-    };
+    const nameValue = watch('name');
+    const canSubmit = nameValue?.trim().length > 0;
 
     const handleReset = () => {
-        setFormValues({
+        reset({
             name: user.displayName || user.name || '',
             photoURL: user.photoURL || '',
         });
     };
 
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        if (!canSubmit || isSaving) return;
+    const handleUpdate = (data) => {
+        if (!canSubmit) return;
 
-        setIsSaving(true);
         updateUserProfile({
-            displayName: formValues.name.trim(),
-            photoURL: formValues.photoURL.trim() || null,
+            displayName: data.name.trim(),
+            photoURL: data.photoURL?.trim() || null,
         })
             .then(() => {
                 setUser((prev) => ({
                     ...prev,
-                    displayName: formValues.name.trim(),
-                    photoURL: formValues.photoURL.trim() || null,
+                    displayName: data.name.trim(),
+                    photoURL: data.photoURL?.trim() || null,
                 }));
                 toast.success('Profile updated successfully.');
             })
             .catch((error) => {
                 toast.error(`Failed to update profile: ${error.message}`);
-            })
-            .finally(() => {
-                setIsSaving(false);
             });
     };
 
@@ -171,35 +173,33 @@ const Profile = () => {
                         <p className="text-sm text-base-content/70">
                             Keep your name and photo up to date across the dashboard.
                         </p>
-                        <form className="mt-4 grid gap-4 md:grid-cols-2" onSubmit={handleUpdate}>
+                        <form className="mt-4 grid gap-4 md:grid-cols-2" onSubmit={handleSubmit(handleUpdate)}>
                             <label className="form-control w-full">
                                 <span className="label-text text-sm font-medium">Full name</span>
                                 <input
                                     type="text"
-                                    name="name"
-                                    value={formValues.name}
-                                    onChange={handleChange}
                                     className="input input-bordered w-full"
                                     placeholder="Your name"
-                                    required
+                                    {...register('name', { required: 'Full name is required' })}
                                 />
+                                {errors.name && (
+                                    <span className="mt-1 text-xs text-error">{errors.name.message}</span>
+                                )}
                             </label>
                             <label className="form-control w-full">
                                 <span className="label-text text-sm font-medium">Photo URL</span>
                                 <input
                                     type="url"
-                                    name="photoURL"
-                                    value={formValues.photoURL}
-                                    onChange={handleChange}
                                     className="input input-bordered w-full"
                                     placeholder="https://example.com/photo.jpg"
+                                    {...register('photoURL')}
                                 />
                             </label>
                             <div className="flex flex-wrap gap-3 md:col-span-2">
-                                <button className="btn btn-primary" type="submit" disabled={!canSubmit || isSaving}>
-                                    {isSaving ? 'Saving...' : 'Save changes'}
+                                <button className="btn btn-primary" type="submit" disabled={!canSubmit || isSubmitting}>
+                                    {isSubmitting ? 'Saving...' : 'Save changes'}
                                 </button>
-                                <button className="btn btn-ghost" type="button" onClick={handleReset} disabled={isSaving}>
+                                <button className="btn btn-ghost" type="button" onClick={handleReset} disabled={isSubmitting}>
                                     Reset
                                 </button>
                             </div>
