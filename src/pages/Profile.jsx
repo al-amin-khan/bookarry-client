@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import toast from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Loading from '../components/Loading';
 import useAuth from '../hooks/useAuth';
 import useRole from '../hooks/useRole';
@@ -12,8 +12,8 @@ const Profile = () => {
     const {
         register,
         handleSubmit,
+        control,
         reset,
-        watch,
         formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
@@ -63,7 +63,7 @@ const Profile = () => {
     const displayName = user.displayName || user.name || 'Anonymous reader';
     const email = user.email || 'Not provided';
     const provider = user.providerData?.[0]?.providerId?.replace('.com', '') || 'Email';
-    const nameValue = watch('name');
+    const nameValue = useWatch({ control, name: 'name' });
     const canSubmit = nameValue?.trim().length > 0;
 
     const handleReset = () => {
