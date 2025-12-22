@@ -4,8 +4,8 @@ import useAuth from './useAuth';
 import { Navigate } from "react-router";
 
 const axiosSecure = axios.create({
-    // baseURL: 'https://bookarry-server.vercel.app/api/v1/',
-    baseURL: 'http://localhost:3000/api/v1/',
+    baseURL: 'https://bookarry-server.vercel.app/api/v1/',
+    // baseURL: 'http://localhost:3000/api/v1/',
     headers: {
         'Content-Type': 'application/json',
     },
