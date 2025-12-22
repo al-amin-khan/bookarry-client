@@ -103,7 +103,13 @@ const Orders = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <div className={order.order_status === 'pending' ? 'text-yellow-100 bg-amber-400 inline-block py-1 px-2 rounded-full' : 'text-success'} >{order.order_status}</div>
+                                            <div
+                                                className={
+                                                    order.order_status === 'pending'
+                                                        ? 'text-yellow-100 bg-amber-400 inline-block py-1 px-2 rounded-full'
+                                                        :
+                                                        order.order_status === 'canceled' ? 'text-white bg-red-400 inline-block py-1 px-2 rounded-full' : 'text-success'}
+                                            >{order.order_status}</div>
                                         </td>
                                         <td>
                                             {
@@ -123,8 +129,8 @@ const Orders = () => {
                                                     :
                                                     <button className='btn hover:cursor-not-allowed disabled:cursor-not-allowed'>
                                                         {
-                                                            order.payment_status === 'paid' ? 'Paid' : 
-                                                            order.order_status === 'canceled' ? 'Canceled' : 'N/A' 
+                                                            order.payment_status === 'paid' ? 'Paid' :
+                                                                order.order_status === 'canceled' ? 'Canceled' : 'N/A'
                                                         }
                                                     </button>
                                             }
