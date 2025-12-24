@@ -24,6 +24,7 @@ import MyBooks from "../pages/MyBooks";
 import LibrarianOrders from "../pages/LibrarianOrders";
 import AllUsers from "../pages/AllUsers";
 import ManageBooks from "../pages/ManageBooks";
+import MyWishlist from "../pages/MyWishlist";
 
 
 const router = createBrowserRouter([
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <ProtectedRoute><Profile /></ProtectedRoute>
+            },
+            {
+                path: 'wishlist',
+                element: <ProtectedRoute><MyWishlist /></ProtectedRoute>
             },
             {
                 path: 'add-book',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { BookOpen, ClipboardList, Settings, User, Users } from 'lucide-react';
+import { BookOpen, ClipboardList, Heart, Settings, User, Users } from 'lucide-react';
 import { FaFileInvoice } from 'react-icons/fa';
 import useRole from '../hooks/useRole';
 import Orders from './../pages/Orders';
@@ -13,6 +13,7 @@ const DashboardLayout = () => {
     const navLinksByRole = {
         user: [
             { to: '/dashboard/orders', label: 'My Orders', icon: ClipboardList, tip: 'Orders' },
+            { to: '/dashboard/wishlist', label: 'My Wishlist', icon: Heart, tip: 'Wishlist' },
             { to: '/dashboard/invoices', label: 'Invoices', icon: FaFileInvoice, tip: 'Invoices' },
             { to: '/dashboard/profile', label: 'My Profile', icon: User, tip: 'Profile' },
         ],
@@ -20,6 +21,7 @@ const DashboardLayout = () => {
             { to: '/dashboard/add-book', label: 'Add Book', icon: BookOpen, tip: 'Add Book' },
             { to: '/dashboard/my-books', label: 'My Books', icon: BookOpen, tip: 'My Books' },
             { to: '/dashboard/librarian-orders', label: 'Orders', icon: ClipboardList, tip: 'Orders' },
+            { to: '/dashboard/wishlist', label: 'Wishlist', icon: Heart, tip: 'Wishlist' },
         ],
         admin: [
             { to: '/dashboard/all-users', label: 'All Users', icon: Users, tip: 'Users' },
@@ -27,6 +29,7 @@ const DashboardLayout = () => {
             { to: '/dashboard/profile', label: 'My Profile', icon: User, tip: 'Profile' },
             { to: '/dashboard/orders', label: 'Orders', icon: ClipboardList, tip: 'Orders' },
             { to: '/dashboard/invoices', label: 'Invoices', icon: FaFileInvoice, tip: 'Invoices' },
+            { to: '/dashboard/wishlist', label: 'Wishlist', icon: Heart, tip: 'Wishlist' },
         ],
     };
 

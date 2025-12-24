@@ -111,6 +111,31 @@ const BookDetail = () => {
 
     }
 
+    const handleAddToWishlist = async () => {
+        console.log('clicked wishlist')
+        const payload = {
+            book_id: id,
+            title,
+            author,
+            image,
+            price,
+            user_email: user.email,
+            user_name: user.displayName || '',
+            created_at: new Date(),
+        };
+
+        try {
+            const res = await axios.post(`/wishlist/${id}/add`, payload);
+            if (res.data?.data?.insertedId) {
+                toast.success('Book added to wishlist.');
+            } else {
+                toast.success('Wishlist updated.');
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message);
+        }
+    };
+
     return (
         <section className="max-w-5xl mx-auto px-4 py-10">
             <div className="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] items-start">
@@ -224,7 +249,11 @@ const BookDetail = () => {
                         <button onClick={handlePlaceOrderModal} className="btn btn-primary">
                             Order Now
                         </button>
-                        <button className="btn btn-outline btn-secondary">
+                        <button
+                            type="button"
+                            onClick={handleAddToWishlist}
+                            className="btn btn-outline btn-secondary"
+                        >
                             Add to Wishlist
                         </button>
                     </div>
