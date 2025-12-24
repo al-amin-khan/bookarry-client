@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import useRole from '../hooks/useRole';
+import Swal from 'sweetalert2';
 
 const ManageBooks = () => {
     const { role, isUserRoleLoading } = useRole();
@@ -39,6 +40,54 @@ const ManageBooks = () => {
         } catch (err) {
             toast.error(err.response?.data?.message || err.message);
         }
+    };
+
+    const handleDeleteBook = async (bookId, title) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await axiosSecure.delete(`/books/${bookId}`);
+                    console.log(res.data.data);
+
+                    if (res.data.data?.deletedCount > 0) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: `"${title || 'The book'}" has been deleted.`,
+                            icon: "success",
+                            timer: 1500
+                        });
+                    }
+                    toast.success('Book deleted successfully.');
+                    refetch();
+                } catch (err) {
+                    toast.error(err.response?.data?.message || err.message);
+                }
+            }
+        });
+        // const confirmed = window.confirm(
+        //     `Are you sure you want to delete "${title || 'this book'}"? This action cannot be undone.`
+        // );
+        // if (!confirmed) return;
+
+        // try {
+        //     const res = await axiosSecure.delete(`/books/${bookId}`);
+        //     if (res.data?.success) {
+        //         toast.success('Book deleted successfully.');
+        //     } else {
+        //         toast.success('Book deleted.');
+        //     }
+        //     refetch();
+        // } catch (err) {
+        //     toast.error(err.response?.data?.message || err.message);
+        // }
     };
 
     return (
@@ -100,11 +149,10 @@ const ManageBooks = () => {
                                             <td className="font-medium">{book.title}</td>
                                             <td>
                                                 <span
-                                                    className={`badge ${
-                                                        book.status === 'published'
+                                                    className={`badge ${book.status === 'published'
                                                             ? 'badge-success'
                                                             : 'badge-ghost'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {book.status || 'published'}
                                                 </span>
@@ -118,11 +166,10 @@ const ManageBooks = () => {
                                                 </Link>
                                                 <button
                                                     type="button"
-                                                    className={`btn btn-xs ${
-                                                        book.status === 'unpublished'
+                                                    className={`btn btn-xs ${book.status === 'unpublished'
                                                             ? 'btn-success'
                                                             : 'btn-warning'
-                                                    }`}
+                                                        }`}
                                                     onClick={() =>
                                                         handleToggleStatus(
                                                             book._id,
@@ -134,6 +181,15 @@ const ManageBooks = () => {
                                                 >
                                                     {book.status === 'unpublished' ? 'Publish' : 'Unpublish'}
                                                 </button>
+                                                {role === 'admin' && (
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-xs btn-error"
+                                                        onClick={() => handleDeleteBook(book._id, book.title)}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))
