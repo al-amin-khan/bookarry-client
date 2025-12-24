@@ -76,8 +76,8 @@ const Invoices = () => {
                                 <th>#</th>
                                 <th>Transaction ID</th>
                                 <th>Order ID</th>
-                                <th>Price</th>
                                 <th>Amount</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>

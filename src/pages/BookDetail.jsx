@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Loading from '../components/Loading';
-import { Link } from "react-router";
 import { Star, BookOpen, Calendar, FileText, Tag, Hash } from "lucide-react";
 import { format } from './../../node_modules/date-fns/format';
 import { useEffect, useRef } from 'react';
@@ -11,13 +10,14 @@ import { generateOrderId } from '../utils/generateOrderId';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { update } from './../../node_modules/sweetalert2/src/instanceMethods/update';
 
 const BookDetail = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const axios = useAxiosSecure();
     const modalRef = useRef(null);
+    
+    const navigate = useNavigate();
 
     const { data: book, isLoading, isError, error } = useQuery({
         queryKey: ['book', id],
@@ -26,8 +26,6 @@ const BookDetail = () => {
             return res.data.data;
         }
     })
-
-    console.log(book?.title)
 
     const {
         register,
@@ -104,6 +102,7 @@ const BookDetail = () => {
 
                     reset();
                     modalRef.current.close();
+                    navigate('/dashboard/orders');
                 }
             })
             .catch(error => {

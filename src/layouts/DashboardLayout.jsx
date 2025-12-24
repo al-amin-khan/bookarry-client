@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router';
 import { BookOpen, ClipboardList, Settings, User, Users } from 'lucide-react';
 import { FaFileInvoice } from 'react-icons/fa';
 import useRole from '../hooks/useRole';
+import Orders from './../pages/Orders';
 
 const DashboardLayout = () => {
 
@@ -24,6 +25,8 @@ const DashboardLayout = () => {
             { to: '/dashboard/all-users', label: 'All Users', icon: Users, tip: 'Users' },
             { to: '/dashboard/manage-books', label: 'Manage Books', icon: Settings, tip: 'Manage Books' },
             { to: '/dashboard/profile', label: 'My Profile', icon: User, tip: 'Profile' },
+            { to: '/dashboard/orders', label: 'Orders', icon: ClipboardList, tip: 'Orders' },
+            { to: '/dashboard/invoices', label: 'Invoices', icon: FaFileInvoice, tip: 'Invoices' },
         ],
     };
 
