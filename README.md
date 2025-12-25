@@ -2,7 +2,7 @@
 
 Bookarry is a book ordering and delivery platform that connects readers with libraries and librarians. This repository contains the frontend application built with React and Vite.
 
-Live site: https://bookarry.web.app/
+##### Live site: [https://bookarry.web.app/]()
 
 ## Product Overview
 
